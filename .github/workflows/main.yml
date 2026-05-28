@@ -38,10 +38,13 @@ jobs:
           java-version: "17"
           cache: maven
 
-      - name: Install Chrome & XVFB
+      - name: Install Chrome, ChromeDriver & XVFB
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser xvfb
+          sudo apt-get install -y chromium-browser chromium-chromedriver xvfb
+          # Verify ChromeDriver installation
+          which chromedriver
+          chromedriver --version
 
       - name: Start Virtual Display
         run: |
@@ -53,6 +56,8 @@ jobs:
 
       - name: Execute TestNG Tests
         working-directory: SauceDemoAIAutomation
+        env:
+          PATH: /usr/lib/chromium-browser:$PATH
         run: mvn test --fail-at-end
 
       - name: Upload Cucumber Report
