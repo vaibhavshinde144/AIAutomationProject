@@ -38,6 +38,11 @@ jobs:
           java-version: "17"
           cache: maven
 
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
       - name: Install Chrome, ChromeDriver & XVFB
         run: |
           sudo apt-get update
