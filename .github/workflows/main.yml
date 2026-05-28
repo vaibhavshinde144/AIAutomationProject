@@ -16,12 +16,8 @@ on:
 
 jobs:
   run-tests:
-    name: Build and Execute Automation Tests
+    name: Build and Execute Regression Priority Tests
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        shell: bash
 
     env:
       HEADLESS_MODE: "true"
@@ -38,17 +34,16 @@ jobs:
           java-version: "17"
           cache: maven
 
-      - name: Install Maven
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y maven
+      - name: Verify Maven
+        run: mvn -version
 
-      - name: Install Chrome, ChromeDriver & XVFB
+      - name: Install Chrome, ChromeDriver and XVFB
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser chromium-chromedriver xvfb
-          # Verify ChromeDriver installation
+          sudo apt-get install -y chromium chromium-driver xvfb
+          which chromium
           which chromedriver
+          chromium --version
           chromedriver --version
 
       - name: Start Virtual Display
@@ -59,17 +54,16 @@ jobs:
         working-directory: SauceDemoAIAutomation
         run: mvn clean compile
 
-      - name: Execute TestNG Tests
+      - name: Execute Regression Priority TestNG Suite
         working-directory: SauceDemoAIAutomation
-        env:
-          PATH: /usr/lib/chromium-browser:$PATH
-        run: mvn test --fail-at-end
+        run: |
+          mvn clean test -Dsurefire.suiteXmlFiles=testng-regression-priority.xml
 
-      - name: Upload Cucumber Report
+      - name: Upload Surefire TestNG Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-report
+          name: surefire-testng-report
           path: SauceDemoAIAutomation/target/surefire-reports
 
       - name: Upload Extent Report
