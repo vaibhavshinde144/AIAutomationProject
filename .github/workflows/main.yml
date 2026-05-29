@@ -22,8 +22,8 @@ jobs:
     env:
       HEADLESS_MODE: "true"
       DISPLAY: ":99"
-      SE_CACHE_PATH: "${{ runner.temp }}/selenium-cache"
-      SE_AVOID_STATS: "true"
+      SE_CACHE_PATH: "${{ runner.temp }}//something
+        run: echo "$SOME_PATH"
 
     steps:
       - name: Checkout Source Code
