@@ -9,9 +9,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      HEADLESS_MODE: "true"
       DISPLAY: ":99"
       SE_CACHE_PATH: "${{ runner.temp }}/something"
+
+    defaults:
+      run:
+        working-directory: SauceDemoAIAutomation
 
     steps:
       - name: Checkout Source Code
@@ -26,6 +29,7 @@ jobs:
           distribution: temurin
           java-version: "17"
           cache: maven
+          cache-dependency-path: SauceDemoAIAutomation/pom.xml
 
       - name: Verify Maven
         run: mvn -version
@@ -37,4 +41,4 @@ jobs:
         run: google-chrome --version
 
       - name: Run Regression Priority Tests
-        run: mvn test
+        run: mvn "-Dheadless=true" "-Dsurefire.suiteXmlFiles=testng-regression-priority.xml" test

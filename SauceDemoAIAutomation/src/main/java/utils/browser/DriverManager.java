@@ -10,6 +10,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import utils.config.ConfigReader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -63,7 +65,7 @@ public class DriverManager {
     private static void configureChromeDriver() {
         String configuredDriver = ConfigReader.get("webdriver.chrome.driver",
                 ConfigReader.get("chrome.driver.path", ""));
-        if (configuredDriver == null || configuredDriver.isBlank()) {
+        if (configuredDriver == null || configuredDriver.isBlank() || !Files.isRegularFile(Path.of(configuredDriver))) {
             WebDriverManager.chromedriver().setup();
             return;
         }
