@@ -1,6 +1,14 @@
 name: Regression Priority Tests
 
 on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
