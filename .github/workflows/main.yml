@@ -50,3 +50,13 @@ jobs:
 
       - name: Run Regression Priority Tests
         run: mvn "-Dheadless=true" "-Dsurefire.suiteXmlFiles=testng-regression-priority.xml" test
+
+      - name: Upload Extent Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report
+          path: |
+            SauceDemoAIAutomation/test-output/ExtentReport.html
+            SauceDemoAIAutomation/test-output/screenshots/**
+          if-no-files-found: warn
