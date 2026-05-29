@@ -18,7 +18,7 @@ jobs:
 
     env:
       DISPLAY: ":99"
-      SE_CACHE_PATH: "${{ runner.temp }}/something"
+      SE_CACHE_PATH: "/tmp/selenium-cache"
 
     defaults:
       run:
